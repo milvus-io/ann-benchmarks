@@ -57,6 +57,24 @@
             >
           </div>
         </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{entry.name}}</h5>
+            <a href="./{{label_func(entry.name, type == 'batch')}}.html">
+              <img
+                class="card-img-top"
+                src="{{label_func(entry.name, type == 'batch')}}.png"
+              />
+            </a>
+            <p class="card-text">{{entry.desc}}</p>
+            <a
+              href="./{{label_func(entry.name, type == 'batch')}}.html"
+              class="btn btn-primary"
+              >Detail</a
+            >
+          </div>
+        </div>
         {% endfor %}
       </div>
       {% endfor %}
