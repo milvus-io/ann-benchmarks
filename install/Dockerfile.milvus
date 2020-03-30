@@ -1,8 +1,8 @@
 # Install Milvus
-FROM milvusdb/milvus:0.6.0-cpu-d120719-2b40dd as milvus
+FROM milvusdb/milvus:0.7.1-cpu-d032920-3cdba5 as milvus
 RUN apt-get update
 RUN apt-get install -y wget
-RUN wget https://raw.githubusercontent.com/milvus-io/docs/v0.6.0/assets/server_config.yaml
+RUN wget https://raw.githubusercontent.com/milvus-io/milvus/v0.7.1/core/conf/demo/server_config.yaml
 RUN sed -i 's/cpu_cache_capacity: 16/cpu_cache_capacity: 4/' server_config.yaml  # otherwise my Docker blows up
 RUN mv server_config.yaml /var/lib/milvus/conf/server_config.yaml
 
@@ -11,10 +11,10 @@ FROM ann-benchmarks
 COPY --from=milvus /var/lib/milvus /var/lib/milvus
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/var/lib/milvus/lib"
 RUN apt-get update
-RUN apt-get install -y libmysqlclient-dev
+RUN apt-get install -y libmysqlclient-dev libcurl4-openssl-dev libopenblas-dev liblapack3
 
 # Python client
-RUN pip3 install pymilvus
+RUN pip3 install pymilvus==0.2.9
 
 # Dumb entrypoint thing that runs the daemon as well
 RUN echo '#!/bin/bash' >> entrypoint.sh

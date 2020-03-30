@@ -1,0 +1,2925 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>milvus</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        padding-top: 25px;
+      }
+    </style>
+  
+  </head>
+  <body>
+        <div class="container">
+        <h1>milvus </h1>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Quick Links
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"></div>
+        </div>
+                            <div class="chart" id="sRecallQueries per second (1/s)">
+            <h3>Recall/Queries per second (1/s)</h3>
+            <div id="RecallQueries per second (1/s)">
+            <canvas id="chartRecallQueries per second (1/s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallQueries per second (1/s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.55628 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.85065 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecallQueries per second (1/s)Scatterplot ">
+            <h3>Recall/Queries per second (1/s)</h3>
+            <div id="RecallQueries per second (1/s)Scatterplot ">
+            <canvas id="chartRecallQueries per second (1/s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallQueries per second (1/s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.55628 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.55628 , y: 546.741098712, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                                    { x: 0.85065 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.85065 , y: 514.936811864, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 142.948346523, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecallBuild time (s)">
+            <h3>Recall/Build time (s)</h3>
+            <div id="RecallBuild time (s)">
+            <canvas id="chartRecallBuild time (s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallBuild time (s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 55.0993142128, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99571 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Build time (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Build time (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecallBuild time (s)Scatterplot ">
+            <h3>Recall/Build time (s)</h3>
+            <div id="RecallBuild time (s)Scatterplot ">
+            <canvas id="chartRecallBuild time (s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallBuild time (s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 55.0993142128, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.55628 , y: 55.0993142128, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.99571 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99496 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.9806 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.85065 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.55628 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Build time (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Build time (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecallIndex size (kB)">
+            <h3>Recall/Index size (kB)</h3>
+            <div id="RecallIndex size (kB)">
+            <canvas id="chartRecallIndex size (kB)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallIndex size (kB)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 619752.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99571 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Index size (kB) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecallIndex size (kB)Scatterplot ">
+            <h3>Recall/Index size (kB)</h3>
+            <div id="RecallIndex size (kB)Scatterplot ">
+            <canvas id="chartRecallIndex size (kB)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallIndex size (kB)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 619752.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.55628 , y: 619752.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.99571 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99496 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.9806 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.85065 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.55628 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Index size (kB) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecallDistance computations">
+            <h3>Recall/Distance computations</h3>
+            <div id="RecallDistance computations">
+            <canvas id="chartRecallDistance computations" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallDistance computations");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Distance computations tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Distance computations '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecallDistance computationsScatterplot ">
+            <h3>Recall/Distance computations</h3>
+            <div id="RecallDistance computationsScatterplot ">
+            <canvas id="chartRecallDistance computationsScatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallDistance computationsScatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Distance computations tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Distance computations '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRelative ErrorQueries per second (1/s)">
+            <h3>Relative Error/Queries per second (1/s)</h3>
+            <div id="Relative ErrorQueries per second (1/s)">
+            <canvas id="chartRelative ErrorQueries per second (1/s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRelative ErrorQueries per second (1/s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 1.04056737868 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 1.00861748746 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 1.00073969851 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 1.00004215324 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 1.00000325679 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Relative Error-Queries per second (1/s) tradeoff - up and to the left is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Relative Error   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRelative ErrorQueries per second (1/s)Scatterplot ">
+            <h3>Relative Error/Queries per second (1/s)</h3>
+            <div id="Relative ErrorQueries per second (1/s)Scatterplot ">
+            <canvas id="chartRelative ErrorQueries per second (1/s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRelative ErrorQueries per second (1/s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 1.04056737868 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 1.04056737868 , y: 546.741098712, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                                    { x: 1.00861748746 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 1.00861748746 , y: 514.936811864, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 1.00073969851 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 1.00004215324 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 1.00000325679 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 1.00000325679 , y: 142.948346523, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Relative Error-Queries per second (1/s) tradeoff - up and to the left is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Relative Error   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecallCandidates generated">
+            <h3>Recall/Candidates generated</h3>
+            <div id="RecallCandidates generated">
+            <canvas id="chartRecallCandidates generated" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallCandidates generated");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.99571 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Candidates generated tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Candidates generated '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecallCandidates generatedScatterplot ">
+            <h3>Recall/Candidates generated</h3>
+            <div id="RecallCandidates generatedScatterplot ">
+            <canvas id="chartRecallCandidates generatedScatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallCandidates generatedScatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.99571 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99496 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.9806 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.85065 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.85065 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.55628 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                                    { x: 0.55628 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Candidates generated tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Candidates generated '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecallIndex size (kB)/Queries per second (s)">
+            <h3>Recall/Index size (kB)/Queries per second (s)</h3>
+            <div id="RecallIndex size (kB)/Queries per second (s)">
+            <canvas id="chartRecallIndex size (kB)/Queries per second (s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallIndex size (kB)/Queries per second (s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.55628 , y: 1128.69684247, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.85065 , y: 1201.21193894, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 1447.89735139, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 2129.23907829, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 4313.40197676, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Index size (kB)/Queries per second (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB)/Queries per second (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecallIndex size (kB)/Queries per second (s)Scatterplot ">
+            <h3>Recall/Index size (kB)/Queries per second (s)</h3>
+            <div id="RecallIndex size (kB)/Queries per second (s)Scatterplot ">
+            <canvas id="chartRecallIndex size (kB)/Queries per second (s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecallIndex size (kB)/Queries per second (s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.55628 , y: 1128.69684247, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.55628 , y: 1133.65540191, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                                    { x: 0.85065 , y: 1201.21193894, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.85065 , y: 1203.67389886, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 1447.89735139, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 2129.23907829, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 4313.40197676, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 4335.94382219, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall-Index size (kB)/Queries per second (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB)/Queries per second (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sEpsilon 0.01 RecallQueries per second (1/s)">
+            <h3>Epsilon 0.01 Recall/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.01 RecallQueries per second (1/s)">
+            <canvas id="chartEpsilon 0.01 RecallQueries per second (1/s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.01 RecallQueries per second (1/s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.62908 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.91973 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99673 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99988 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99999 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.01 Recall-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.01 Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sEpsilon 0.01 RecallQueries per second (1/s)Scatterplot ">
+            <h3>Epsilon 0.01 Recall/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.01 RecallQueries per second (1/s)Scatterplot ">
+            <canvas id="chartEpsilon 0.01 RecallQueries per second (1/s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.01 RecallQueries per second (1/s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.62908 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.62908 , y: 546.741098712, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                                    { x: 0.91973 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.91973 , y: 514.936811864, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.99673 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99988 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99999 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99999 , y: 142.948346523, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.01 Recall-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.01 Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sEpsilon 0.1 RecallQueries per second (1/s)">
+            <h3>Epsilon 0.1 Recall/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.1 RecallQueries per second (1/s)">
+            <canvas id="chartEpsilon 0.1 RecallQueries per second (1/s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.1 RecallQueries per second (1/s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.97248 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.99978 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 1.0 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.1 Recall-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.1 Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sEpsilon 0.1 RecallQueries per second (1/s)Scatterplot ">
+            <h3>Epsilon 0.1 Recall/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.1 RecallQueries per second (1/s)Scatterplot ">
+            <canvas id="chartEpsilon 0.1 RecallQueries per second (1/s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.1 RecallQueries per second (1/s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.97248 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.97248 , y: 546.741098712, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                                    { x: 0.99978 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99978 , y: 514.936811864, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 1.0 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 1.0 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 1.0 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 1.0 , y: 142.948346523, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.1 Recall-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.1 Recall   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecall 0.8+Queries per second (1/s)">
+            <h3>Recall 0.8+/Queries per second (1/s)</h3>
+            <div id="Recall 0.8+Queries per second (1/s)">
+            <canvas id="chartRecall 0.8+Queries per second (1/s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Queries per second (1/s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecall 0.8+Queries per second (1/s)Scatterplot ">
+            <h3>Recall 0.8+/Queries per second (1/s)</h3>
+            <div id="Recall 0.8+Queries per second (1/s)Scatterplot ">
+            <canvas id="chartRecall 0.8+Queries per second (1/s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Queries per second (1/s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.85065 , y: 514.936811864, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 142.948346523, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecall 0.8+Build time (s)">
+            <h3>Recall 0.8+/Build time (s)</h3>
+            <div id="Recall 0.8+Build time (s)">
+            <canvas id="chartRecall 0.8+Build time (s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Build time (s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 55.0993142128, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99571 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Build time (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Build time (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecall 0.8+Build time (s)Scatterplot ">
+            <h3>Recall 0.8+/Build time (s)</h3>
+            <div id="Recall 0.8+Build time (s)Scatterplot ">
+            <canvas id="chartRecall 0.8+Build time (s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Build time (s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 55.0993142128, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99571 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99496 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.9806 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.85065 , y: 55.7993941307, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Build time (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Build time (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecall 0.8+Index size (kB)">
+            <h3>Recall 0.8+/Index size (kB)</h3>
+            <div id="Recall 0.8+Index size (kB)">
+            <canvas id="chartRecall 0.8+Index size (kB)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Index size (kB)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 619752.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99571 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Index size (kB) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecall 0.8+Index size (kB)Scatterplot ">
+            <h3>Recall 0.8+/Index size (kB)</h3>
+            <div id="Recall 0.8+Index size (kB)Scatterplot ">
+            <canvas id="chartRecall 0.8+Index size (kB)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Index size (kB)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 619752.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99571 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99496 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.9806 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.85065 , y: 619816.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Index size (kB) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecall 0.8+Distance computations">
+            <h3>Recall 0.8+/Distance computations</h3>
+            <div id="Recall 0.8+Distance computations">
+            <canvas id="chartRecall 0.8+Distance computations" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Distance computations");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Distance computations tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Distance computations '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecall 0.8+Distance computationsScatterplot ">
+            <h3>Recall 0.8+/Distance computations</h3>
+            <div id="Recall 0.8+Distance computationsScatterplot ">
+            <canvas id="chartRecall 0.8+Distance computationsScatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Distance computationsScatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Distance computations tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Distance computations '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecall 0.8+Candidates generated">
+            <h3>Recall 0.8+/Candidates generated</h3>
+            <div id="Recall 0.8+Candidates generated">
+            <canvas id="chartRecall 0.8+Candidates generated" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Candidates generated");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.99571 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Candidates generated tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Candidates generated '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecall 0.8+Candidates generatedScatterplot ">
+            <h3>Recall 0.8+/Candidates generated</h3>
+            <div id="Recall 0.8+Candidates generatedScatterplot ">
+            <canvas id="chartRecall 0.8+Candidates generatedScatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Candidates generatedScatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.99571 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99496 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.9806 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.85065 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.85065 , y: 10.0, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Candidates generated tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Candidates generated '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sRecall 0.8+Index size (kB)/Queries per second (s)">
+            <h3>Recall 0.8+/Index size (kB)/Queries per second (s)</h3>
+            <div id="Recall 0.8+Index size (kB)/Queries per second (s)">
+            <canvas id="chartRecall 0.8+Index size (kB)/Queries per second (s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Index size (kB)/Queries per second (s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 1201.21193894, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 1447.89735139, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 2129.23907829, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 4313.40197676, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Index size (kB)/Queries per second (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB)/Queries per second (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sRecall 0.8+Index size (kB)/Queries per second (s)Scatterplot ">
+            <h3>Recall 0.8+/Index size (kB)/Queries per second (s)</h3>
+            <div id="Recall 0.8+Index size (kB)/Queries per second (s)Scatterplot ">
+            <canvas id="chartRecall 0.8+Index size (kB)/Queries per second (s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartRecall 0.8+Index size (kB)/Queries per second (s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.85065 , y: 1201.21193894, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.85065 , y: 1203.67389886, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.9806 , y: 1447.89735139, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99496 , y: 2129.23907829, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99571 , y: 4313.40197676, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99571 , y: 4335.94382219, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Recall 0.8+-Index size (kB)/Queries per second (s) tradeoff - down and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Index size (kB)/Queries per second (s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sEpsilon 0.01 Recall 0.8+Queries per second (1/s)">
+            <h3>Epsilon 0.01 Recall 0.8+/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.01 Recall 0.8+Queries per second (1/s)">
+            <canvas id="chartEpsilon 0.01 Recall 0.8+Queries per second (1/s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.01 Recall 0.8+Queries per second (1/s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.91973 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99673 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99988 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99999 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.01 Recall 0.8+-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.01 Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sEpsilon 0.01 Recall 0.8+Queries per second (1/s)Scatterplot ">
+            <h3>Epsilon 0.01 Recall 0.8+/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.01 Recall 0.8+Queries per second (1/s)Scatterplot ">
+            <canvas id="chartEpsilon 0.01 Recall 0.8+Queries per second (1/s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.01 Recall 0.8+Queries per second (1/s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.91973 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.91973 , y: 514.936811864, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 0.99673 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 0.99988 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 0.99999 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 0.99999 , y: 142.948346523, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.01 Recall 0.8+-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.01 Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                            <div class="chart" id="sEpsilon 0.1 Recall 0.8+Queries per second (1/s)">
+            <h3>Epsilon 0.1 Recall 0.8+/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.1 Recall 0.8+Queries per second (1/s)">
+            <canvas id="chartEpsilon 0.1 Recall 0.8+Queries per second (1/s)" width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.1 Recall 0.8+Queries per second (1/s)");
+                var chart = new Chart(ctx, {
+                                        type: "line",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.97248 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.99978 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 1.0 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.1 Recall 0.8+-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.1 Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+                    <div class="chart" id="sEpsilon 0.1 Recall 0.8+Queries per second (1/s)Scatterplot ">
+            <h3>Epsilon 0.1 Recall 0.8+/Queries per second (1/s)</h3>
+            <div id="Epsilon 0.1 Recall 0.8+Queries per second (1/s)Scatterplot ">
+            <canvas id="chartEpsilon 0.1 Recall 0.8+Queries per second (1/s)Scatterplot " width="100%"></canvas>
+            <script>
+                var ctx = document.getElementById("chartEpsilon 0.1 Recall 0.8+Queries per second (1/s)Scatterplot ");
+                var chart = new Chart(ctx, {
+                                        type: "bubble",
+                                        data: { datasets: [
+                                                {
+                            label: "fashion-mnist-784-euclidean (k = 10)",
+                            fill: false,
+                            pointStyle: "rect",
+                            borderColor: "rgba(229, 102, 102, 1)",
+                            data: [
+                                                                    { x: 0.97248 , y: 549.086323873, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=1)" },
+                                                                    { x: 0.97248 , y: 546.741098712, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=1)" },
+                                                                    { x: 0.99978 , y: 515.938927936, label: "Milvus(index_type=IVF_SQ8, nlist=30000, nprobe=3)" },
+                                                                    { x: 0.99978 , y: 514.936811864, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=3)" },
+                                                                    { x: 1.0 , y: 428.080070319, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=10)" },
+                                                                    { x: 1.0 , y: 291.097418941, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=30)" },
+                                                                    { x: 1.0 , y: 143.695394804, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                                    { x: 1.0 , y: 142.948346523, label: "Milvus(index_type=IVF_SQ8, nlist=100, nprobe=100)" },
+                                                            ]
+                        },
+                                                ]},
+                        options: {
+                            responsive: true,
+                            title:{
+                                display:true,
+                                text: 'Epsilon 0.1 Recall 0.8+-Queries per second (1/s) tradeoff - up and to the right is better'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    type: 'linear',
+                                    max: '1',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Epsilon 0.1 Recall 0.8+   '
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    type: 'logarithmic',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Queries per second (1/s) '
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                function pushOrConcat(base, toPush) {
+                        if (toPush) {
+                                if (Chart.helpers.isArray(toPush)) {
+                                        // base = base.concat(toPush);
+                                        Array.prototype.push.apply(base, toPush);
+                                } else {
+                                        base.push(toPush);
+                                }
+                        }
+
+                        return base;
+                }
+                Chart.Tooltip.prototype.getFooter = function(tooltipItem, data) {
+                    var me = this;
+                    var callbacks = me._options.callbacks;
+                    var item = tooltipItem[0];
+
+                    var beforeFooter = callbacks.beforeFooter.apply(me, arguments);
+                    var footer = "Parameters: " + data.datasets[item.datasetIndex].data[item.index].label || '';
+                    var afterFooter = callbacks.afterFooter.apply(me, arguments);
+
+                    var lines = [];
+                    lines = pushOrConcat(lines, beforeFooter);
+                    lines = pushOrConcat(lines, footer);
+                    lines = pushOrConcat(lines, afterFooter);
+
+                    return lines;
+                }
+
+                </script>
+            </div>
+                    </div>
+
+        
+  </div>
+  </body>
+  <style>
+    .container {
+      width: 100%;
+      position: relative;
+      padding-top: 40px;
+    }
+    .chart {
+        margin: 16px;
+        width: 100%;
+    }
+    .dropdown {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+    .datasetsContainer {
+      width: 100%;
+      display: flex;
+    }
+    .card {
+      width: 15rem;
+      margin-right: 2rem;
+      margin-bottom: 2rem;
+    }
+    .algorithm.card {
+      width: 18rem;
+      margin-right: 2rem;
+    }
+    .algorithmResult {
+      display: flex;
+    }
+  </style>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', () => {
+      let canvas = [...document.querySelectorAll('.chart')];
+      let originIds =  canvas.map(c => c.id.replace('s', ''));
+      canvas.forEach(c => {
+        c.id = c.id.replace(/\s/g, '')
+      });
+      let ids = canvas.map(c => c.id);
+      let menu = document.querySelector('.dropdown-menu');
+      ids.forEach((id, index) => {
+        const item = document.createElement('a');
+        item.className="dropdown-item";
+        item.href = `#${id}`;
+        item.innerHTML = originIds[index];
+        menu.appendChild(item);
+      })
+    });
+  </script>
+</html>
