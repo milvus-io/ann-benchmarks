@@ -600,7 +600,25 @@ bit:
         base:
           args: [[32,64,128,256,512,1024,2048,4096,8192]]
           query-args: [[1, 5, 10, 50, 100, 200]]
+    milvus:
+      docker-tag: ann-benchmarks-milvus
+      module: ann_benchmarks.algorithms.milvus
+      constructor: Milvus
+      base-args: ["@metric"]
+      run-groups:
+        milvus:
+          args: [['IVF_FLAT', 'IVF_SQ8'], [100, 300, 1000, 3000, 10000, 30000]]  # nlist
+          query-args: [[1, 3, 10, 30, 100, 300]]  # nprobe (should be <= nlist)
   jaccard:
+    milvus:
+      docker-tag: ann-benchmarks-milvus
+      module: ann_benchmarks.algorithms.milvus
+      constructor: Milvus
+      base-args: ["@metric"]
+      run-groups:
+        milvus:
+          args: [['IVF_FLAT', 'IVF_SQ8'], [100, 300, 1000, 3000, 10000, 30000]]  # nlist
+          query-args: [[1, 3, 10, 30, 100, 300]]  # nprobe (should be <= nlist)
     bf:
       docker-tag: ann-benchmarks-sklearn
       module: ann_benchmarks.algorithms.bruteforce
