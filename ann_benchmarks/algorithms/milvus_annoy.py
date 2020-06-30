@@ -10,15 +10,19 @@ class MilvusAnnoy(BaseANN):
     def __init__(self, metric, n_trees):
         self._n_trees = n_trees
         self._search_k = None
-        self._metric = metric
+        self._metric = {'angular': milvus.MetricType.IP, 'euclidean': milvus.MetricType.L2}[metric]
         self._milvus = milvus.Milvus(host='localhost', port='19530', try_connect=False, pre_ping=False)
         self._table_name = 'test01'
 
     def fit(self, X):
-        if self._metric == 'angular':
+        if self._metric == milvus.MetricType.IP:
             X = sklearn.preprocessing.normalize(X, axis=1, norm='l2')
 
-        self._milvus.create_collection({'collection_name': self._table_name, 'dimension': X.shape[1], 'index_file_size': 2048})
+        self._milvus.create_collection({
+            'collection_name': self._table_name, 'dimension': X.shape[1],
+            'index_file_size': 2048, 'metric_type': self._metric}
+        )
+
         vector_ids = [id for id in range(len(X))]
         records = X.tolist()
         records_len = len(records)
@@ -29,13 +33,6 @@ class MilvusAnnoy(BaseANN):
             if not status.OK():
                 raise Exception("Insert failed. {}".format(status))
         self._milvus.flush([self._table_name])
-
-        # while True:
-        #     status, stats = self._milvus.get_collection_stats(self._table_name)
-        #     if len(stats["partitions"][0]["segments"]) > 1:
-        #         time.sleep(2)
-        #     else:
-        #         break
 
         # index_type = getattr(milvus.IndexType, self._index_type)  # a bit hacky but works
         status = self._milvus.create_index(self._table_name, milvus.IndexType.ANNOY, params={"n_trees": self._n_trees})
@@ -67,12 +64,10 @@ class MilvusAnnoy(BaseANN):
 
             if not results:
                 raise Exception("Query result is empty")
-            # r = [self._milvus_id_to_index[z.id] for z in results[0]]
             results_ids = []
             for result in results[0]:
                 results_ids.append(result.id)
             handled_result.append((total, v, results_ids))
-            # return results_ids
         return time.time() - t0, handled_result
 
     def batch_query(self, X, n):

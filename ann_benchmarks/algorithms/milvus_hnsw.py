@@ -9,16 +9,21 @@ from ann_benchmarks.algorithms.base import BaseANN
 class MilvusHNSW(BaseANN):
     def __init__(self, metric, method_param):
         self._metric = metric
+
+        self._metric = {'angular': milvus.MetricType.IP, 'euclidean': milvus.MetricType.L2}[metric]
         self._method_param = method_param
         self._ef = None
         self._milvus = milvus.Milvus(host='localhost', port='19530', try_connect=False, pre_ping=False)
         self._table_name = 'test01'
 
     def fit(self, X):
-        if self._metric == 'angular':
+        if self._metric == milvus.MetricType.IP:
             X = sklearn.preprocessing.normalize(X, axis=1, norm='l2')
 
-        self._milvus.create_collection({'collection_name': self._table_name, 'dimension': X.shape[1], 'index_file_size': 2048})
+        self._milvus.create_collection(
+            {'collection_name': self._table_name, 'dimension': X.shape[1],
+             'index_file_size': 2048, 'metric_type': self._metric}
+        )
         vector_ids = [id_ for id_ in range(len(X))]
         records = X.tolist()
         records_len = len(records)
