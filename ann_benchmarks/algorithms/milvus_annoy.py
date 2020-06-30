@@ -26,7 +26,7 @@ class MilvusAnnoy(BaseANN):
         vector_ids = [id for id in range(len(X))]
         records = X.tolist()
         records_len = len(records)
-        step = 100000
+        step = 20000
         for i in range(0, records_len, step):
             end = min(i + step, records_len)
             status, ids = self._milvus.insert(collection_name=self._table_name, records=records[i:end], ids=vector_ids[i:end])
