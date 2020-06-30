@@ -64,6 +64,10 @@ def rel(dataset_distances, run_distances, metrics):
         for true_distances, found_distances in zip(dataset_distances,
                                                    run_distances):
             for rdist, cdist in zip(true_distances, found_distances):
+
+                if np.isnan(rdist) or np.isnan(cdist) or np.isinf(rdist) or np.isinf(cdist):
+                    continue
+
                 total_closest_distance += rdist
                 total_candidate_distance += cdist
         if total_closest_distance < 0.01:
@@ -71,6 +75,9 @@ def rel(dataset_distances, run_distances, metrics):
         else:
             metrics.attrs['rel'] = total_candidate_distance / \
                 total_closest_distance
+
+            if metrics.attrs['rel'] - 1.0 < 0:
+                metrics.attrs['rel'] = 1.0
     else:
         print("Found cached result")
     return metrics.attrs['rel']
@@ -148,7 +155,7 @@ all_metrics = {
         "worst": float("inf")
     },
     "build": {
-        "description": "Build time (s)",
+        "description": "Refresh time (s)",
         "function": lambda true_distances, run_distances, metrics, run_attrs: build_time(true_distances, run_attrs), # noqa
         "worst": float("inf")
     },
