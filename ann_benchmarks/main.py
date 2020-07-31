@@ -6,6 +6,7 @@ import random
 import sys
 import shutil
 import traceback
+import math
 
 from ann_benchmarks.datasets import get_dataset, DATASETS
 from ann_benchmarks.constants import INDEX_DIR
@@ -25,6 +26,17 @@ def positive_int(s):
         pass
     if not i or i < 1:
         raise argparse.ArgumentTypeError("%r is not a positive integer" % s)
+    return i
+
+
+def greater_than_1(s):
+    i = None
+    try:
+        i = int(s)
+    except ValueError:
+        pass
+    if not i or i < 2:
+        raise argparse.ArgumentTypeError("%r is not a expected value" % s)
     return i
 
 
@@ -87,6 +99,10 @@ def main():
         '--batch',
         action='store_true',
         help='If set, algorithms get all queries at once')
+    parser.add_argument(
+        '--batchsize',
+        type=greater_than_1,
+        default=math.inf)
     parser.add_argument(
         '--max-n-algorithms',
         type=int,
@@ -214,10 +230,10 @@ def main():
         try:
             if args.local:
                 run(definition, args.dataset, args.count, args.runs,
-                    args.batch)
+                    args.batch, args.batchsize)
             else:
                 run_docker(definition, args.dataset, args.count,
-                           args.runs, args.timeout, args.batch, str(args.cpu_number))
+                           args.runs, args.timeout, args.batch, str(args.cpu_number), args.batchsize)
         except KeyboardInterrupt:
             break
         except:
